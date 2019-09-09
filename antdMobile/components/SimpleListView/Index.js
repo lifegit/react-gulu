@@ -2,13 +2,15 @@ import React from 'react';
 import { PullToRefresh, ListView, Icon } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import Empty from '@/components/Empty';
+import ReactDOM from "react-dom";
 
 export default class extends React.Component {
 
     state = {
-        dataSource: new ListView.DataSource({
-            rowHasChanged: (row1, row2) => row1 !== row2,
-        })
+      height: document.documentElement.clientHeight,
+      dataSource: new ListView.DataSource({
+          rowHasChanged: (row1, row2) => row1 !== row2,
+      })
     };
 
 
@@ -41,7 +43,9 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        this.showData(1);
+      const height = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).offsetTop;
+      this.setState({height});
+      this.showData(1);
     }
 
     onRefresh = () => {
@@ -72,8 +76,7 @@ export default class extends React.Component {
         const { loading, data, renderRow } = this.props;
         const { list = [], page = { } } = data;
         const { total = 0, size = 0 } = page;
-        const { dataSource } = this.state;
-
+        const { dataSource,height } = this.state;
 
         const separator = (sectionID, rowID) => (
             <div
@@ -90,6 +93,7 @@ export default class extends React.Component {
 
         return (
             <ListView
+                ref={el => this.lv = el}
                 dataSource={dataSource}
                 renderSeparator={separator}
                 renderRow={renderRow}
@@ -102,8 +106,8 @@ export default class extends React.Component {
                     </div>
                 )}
                 style={{
-                    height: "100%",
-                    border: '1px solid #ddd',
+                    height,
+                    // border: '1px solid #ddd',
                     margin: '5px 0',
                 }}
                 pullToRefresh={

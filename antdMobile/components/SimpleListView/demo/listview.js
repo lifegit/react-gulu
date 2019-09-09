@@ -1,7 +1,7 @@
 /* eslint no-dupe-keys: 0, no-mixed-operators: 0 */
-import React, {Fragment} from '_react@16.8.6@react';
-import { PullToRefresh, ListView, Button, Icon } from '_antd-mobile@2.2.14@antd-mobile/lib/index';
-import ReactDOM from "_react-dom@16.8.6@react-dom";
+import React, {Fragment} from 'react';
+import { PullToRefresh, ListView, Button, Icon } from 'antd-mobile';
+import ReactDOM from "react-dom";
 
 const data = [
     {

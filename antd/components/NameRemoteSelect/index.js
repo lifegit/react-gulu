@@ -20,8 +20,8 @@ export default class NameRemoteSelect extends React.Component {
     };
 
     handleChange = (value) => {
-      const { onChange =()=>{}  }  = this.props;
-      onChange(value);
+        const { onChange =()=>{}  }  = this.props;
+        onChange(value);
     };
 
     render() {
@@ -44,7 +44,7 @@ export default class NameRemoteSelect extends React.Component {
                     onDeselect={this.handleChange}
                 >
                     {names.map( (d,index) =>
-                        <Option key={index} >{(field.length ? field.map(t => d[t]) : Object.values(d) ).filter(t=>t).join(fieldSign)}</Option>
+                        <Option key={d.id || index} >{(field.length ? field.map(t => d[t]) : Object.values(d) ).filter(t=>t).join(fieldSign)}</Option>
                     )}
                 </Select>
             </div>

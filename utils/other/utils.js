@@ -66,3 +66,50 @@ export function e() {
 function r(lowerValue,upperValue) {
   return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue)
 }
+
+/**
+ * 时间戳转时间字符串
+ * @param {*} dateTime 
+ * @param {object} opts 
+ */
+export function dateToString(dateTime, opts = {}){
+  const add0 = function(m){
+    return m < 10 ? '0' + m: m
+  }
+  const { isYear = true, isMonth = true, isDay = true, isHour = true, isMinute = true, isSecond = true } = opts;
+
+
+  const c = Number.isFinite(dateTime * 1 ) && dateTime.toString().length < 13 ? dateTime * 1000 : dateTime
+  const time = new Date(c)
+  const year   = isYear   ? '-' + time.getFullYear() : '';
+  const month  = isMonth  ? '-' + add0(time.getMonth() + 1) : '';
+  const day    = isDay    ? '-' + add0(time.getDate()) : '';
+  const hour   = isHour   ? ' ' + add0(time.getHours()) : '';
+  const minute = isMinute ? ':' + add0(time.getMinutes()) : '';
+  const second = isSecond ? ':' + add0(time.getSeconds()) : '';
+
+  return (year + month + day + hour + minute + second).substring(1)
+}
+
+
+/**
+ * request,get访问进行格式化数据
+ * @return {string}
+ */
+export function formatGetData(params = {}) {
+  return Object.keys(params).map(item => `${item}=${JSON.stringify(params[item])}` ).join('&');
+}
+
+/**
+ * 对一个字符串转换成金额形式
+ * @param num
+ * @param n
+ * @param isSymbol
+ * @returns {string}
+ */
+export function toMoney (num = 0,n = 2, isSymbol = true) {
+  const integer = String(num).split('.')[0]
+  const decimal = !n ? '' : '.' + Array.from({length:n}).map(item => 0).join('')
+  const number = integer + decimal
+  return isSymbol ? `¥ ${number}` : number
+}

@@ -12,7 +12,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
     nameLoading: loading.effects['names/name'],
 }))
 
-class Demo extends PureComponent {
+class Index extends PureComponent {
 
     handSearchName=(name)=>{
         const { dispatch } = this.props;
@@ -44,6 +44,7 @@ class Demo extends PureComponent {
                     <Form onSubmit={this.handleSubmit} >
                         <FormItem>
                             {getFieldDecorator('name', {
+                                initialValue: {key: 2, label: "张三"},
                                 rules: [
                                     {
                                         required: true,
@@ -70,4 +71,4 @@ class Demo extends PureComponent {
     }
 }
 
-export default Demo;
+export default Index;

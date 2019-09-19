@@ -108,8 +108,19 @@ export function formatGetData(params = {}) {
  * @returns {string}
  */
 export function toMoney (num = 0,n = 2, isSymbol = true) {
-  const integer = String(num).split('.')[0]
-  const decimal = !n ? '' : '.' + Array.from({length:n}).map(item => 0).join('')
+  const sp = String(num).split('.')
+  const integer = sp[0] || 0
+
+  let decimal = ''
+  if (n){
+    decimal = sp.length >= 2 ? sp[1].substr(0,n) : ''
+    const len = n - decimal.length
+    if (len > 0) {
+      decimal = decimal + Array.from({length: len}).map(item => 0).join('')
+    }
+    decimal = `.${decimal}`
+  }
+
   const number = integer + decimal
   return isSymbol ? `¥ ${number}` : number
 }

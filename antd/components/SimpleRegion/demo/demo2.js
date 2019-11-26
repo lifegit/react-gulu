@@ -28,6 +28,7 @@ export default class Demo extends PureComponent {
                 <Form onSubmit={this.handleSubmit}>
                     <FormItem
                         label="SimpleRegion"
+                        hasFeedback
                     >
                         {getFieldDecorator('region', {
                             rules: [{
@@ -49,6 +50,7 @@ export default class Demo extends PureComponent {
                     </FormItem>
                     <FormItem
                         label="Town"
+                        hasFeedback
                     >
                         {getFieldDecorator('town', {
                             rules: [{

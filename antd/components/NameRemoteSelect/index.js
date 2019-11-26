@@ -20,8 +20,8 @@ export default class NameRemoteSelect extends React.Component {
     };
 
     handleChange = (value) => {
-        const { onChange =()=>{}  }  = this.props;
-        onChange(value);
+      const { onChange =()=>{}  }  = this.props;
+      onChange(value);
     };
 
     render() {

@@ -26,6 +26,7 @@ export default class Demo extends PureComponent {
                 <Form onSubmit={this.handleSubmit}>
                     <FormItem
                         label="SimpleRegion"
+                        hasFeedback
                     >
                         {getFieldDecorator('region', {
                             initialValue: BuildRegionValue('北京市','市辖区','西城区'), // 需要这么设置默认值

@@ -11,7 +11,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
     names,
     nameLoading: loading.effects['names/name'],
 }))
-
 class Index extends PureComponent {
 
     handSearchName=(name)=>{
@@ -42,7 +41,7 @@ class Index extends PureComponent {
             <PageHeaderWrapper title={'Demo'}>
                 <Card bordered={false} style={{marginBottom:10}} bodyStyle={{paddingBottom:0,paddingTop:16}}>
                     <Form onSubmit={this.handleSubmit} >
-                        <FormItem>
+                        <FormItem hasFeedback>
                             {getFieldDecorator('name', {
                                 initialValue: {key: 2, label: "张三"},
                                 rules: [

@@ -52,7 +52,7 @@ class Demo extends React.Component {
 
         return (
             <Form onSubmit={this.handleSubmit}>
-                <FormItem {...formItemLayout} label={'账号'}>
+                <FormItem {...formItemLayout} label={'账号'} hasFeedback>
                     {getFieldDecorator('username', {
                         initialValue:'testVD',
                         rules: [
@@ -66,7 +66,7 @@ class Demo extends React.Component {
                         ],
                     })(<Input placeholder="请输入账号" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label={'密码'}>
+                <FormItem {...formItemLayout} label={'密码'} hasFeedback>
                     {getFieldDecorator('password', {
                         rules: [
                             {
@@ -84,9 +84,9 @@ class Demo extends React.Component {
                                 },
                             }
                         ],
-                    })(<Input type="password" placeholder="请输入密码" />)}
+                    })(<Input.Password type="password" placeholder="请输入密码" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="确认密码">
+                <FormItem {...formItemLayout} label="确认密码" hasFeedback>
                     {getFieldDecorator('password2', {
                         rules: [
                             {
@@ -106,10 +106,10 @@ class Demo extends React.Component {
                             },
                         ]
                     })(
-                        <Input type="password" placeholder="请输入确认密码"/>
+                        <Input.Password type="password" placeholder="请输入确认密码"/>
                     )}
                 </FormItem>
-                <FormItem {...formItemLayout} label={'姓名'}>
+                <FormItem {...formItemLayout} label={'姓名'} hasFeedback>
                     {getFieldDecorator('name', {
                         rules: [
                             {
@@ -122,7 +122,7 @@ class Demo extends React.Component {
                         ],
                     })(<Input placeholder="请输入姓名" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label={'备注'}>
+                <FormItem {...formItemLayout} label={'备注'} hasFeedback>
                     {getFieldDecorator('other', {
                         rules: [
                             {
@@ -135,7 +135,7 @@ class Demo extends React.Component {
                         ],
                     })(<Input placeholder="请输入备注" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label={'手机号'}>
+                <FormItem {...formItemLayout} label={'手机号'} hasFeedback>
                     {getFieldDecorator('mobile', {
                         rules: [
                             {
@@ -151,7 +151,7 @@ class Demo extends React.Component {
                     })(<NumericInput isTooltip={true} isFormat={false} placeholder="请输入手机号"/>)}
 
                 </FormItem>
-                <FormItem{...formItemLayout} label={'邮箱'}>
+                <FormItem{...formItemLayout} label={'邮箱'} hasFeedback>
                     {getFieldDecorator('email2', {
                         rules: [{
                             trigger:'change',
@@ -166,7 +166,7 @@ class Demo extends React.Component {
                     )}
                 </FormItem>
 
-                <FormItem {...formItemLayout}
+                <FormItem {...formItemLayout} hasFeedback
                           label={
                               <span>
                               主页
@@ -188,7 +188,7 @@ class Demo extends React.Component {
                         ],
                     })(<Input placeholder="请输入主页" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label={'税前工资'}>
+                <FormItem {...formItemLayout} label={'税前工资'} hasFeedback>
                     {getFieldDecorator('wages', {
                         initialValue:'3333.33',
                         rules: [
@@ -202,7 +202,7 @@ class Demo extends React.Component {
                         ],
                     })(<InputNumber placeholder="输入工资" min={0} max={10000} style={{width:200}} />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label={'税款'}>
+                <FormItem {...formItemLayout} label={'税款'} hasFeedback>
                     {getFieldDecorator('tax', {
                         rules: [
                             {

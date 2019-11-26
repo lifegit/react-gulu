@@ -3,6 +3,7 @@ import { Form, Modal,Input,Progress,Popover } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import styles from "./styles.less";
 import { formatMessage } from 'umi/locale';
+import {legalRoutine} from '@/utils/validate';
 
 const FormItem = Form.Item;
 
@@ -48,7 +49,7 @@ const passwordStrength = {
         </font>
     ),
 };
-const ModalNewPass = Form.create({ name: 'form_in_modal' })(
+const ModalNewPass = Form.create({ name: 'form_in_modal_pass' })(
     // eslint-disable-next-line
     class extends React.Component {
         state = {
@@ -58,7 +59,7 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
 
         getPasswordStatus = () => {
             const { form } = this.props;
-            const value = form.getFieldValue('newPass');
+            const value = form.getFieldValue('new');
             if (value && value.length > 9) {
                 return 'ok';
             }
@@ -69,7 +70,7 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
         };
         renderPasswordProgress = () => {
             const { form } = this.props;
-            const value = form.getFieldValue('newPass');
+            const value = form.getFieldValue('new');
             const passwordStatus = this.getPasswordStatus();
             return value && value.length ? (
                 <div className={styles[`progress-${passwordStatus}`]}>
@@ -85,27 +86,27 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
         };
         checkConfirm = (rule, value, callback) => {
             const { form } = this.props;
-            if (value && value !== form.getFieldValue('newPass')) {
+            if (value && value !== form.getFieldValue('new')) {
                 callback(formatMessage({ id: 'validation.password.twice' }));
             } else {
                 callback();
             }
         };
         checkPassword = (rule, value, callback) => {
-            const { visible, confirmDirty } = this.state;
+            const { popoverVisible, confirmDirty } = this.state;
             if (!value) {
                 this.setState({
                     help: formatMessage({ id: 'validation.password.required' }),
-                    visible: !!value,
+                  popoverVisible: !!value,
                 });
                 callback('error');
             } else {
                 this.setState({
                     help: '',
                 });
-                if (!visible) {
+                if (!popoverVisible) {
                     this.setState({
-                        visible: !!value,
+                      popoverVisible: !!value,
                     });
                 }
                 if (value.length < 6) {
@@ -119,46 +120,57 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
                 }
             }
         };
+
         render() {
             const {
-                confirmLoading, modalVisible, onCancel, onCreate, form, showNowPass = false
+                loading, visible, onCancel, onCreate, form, showNowPass = false
             } = this.props;
-            const { getFieldDecorator } = form;
-            const { visible ,help} = this.state;
+            const { getFieldDecorator,validateFields } = form;
+            const { popoverVisible ,help} = this.state;
+            const handleOk = () => {
+              validateFields((err, values) => {
+                if (err) {
+                  return ;
+                }
+                console.log('Received values of form: ', values);
+                form.resetFields();
+                onCreate(values)
+              });
+            }
             return (
                 <Modal
                     destroyOnClose
-                    confirmLoading={confirmLoading}
-                    visible={modalVisible}
+                    loading={loading}
+                    visible={visible}
                     title="修改密码"
                     onCancel={onCancel}
-                    onOk={onCreate}
+                    onOk={handleOk}
                 >
-                    <Form layout="vertical">
+                    <Form layout="vertical" onSubmit={handleOk}>
                         {
                             showNowPass ? (
                                 <FormItem>
-                                    {getFieldDecorator('password', {
+                                    {getFieldDecorator('old', {
                                         rules: [
                                             {
                                                 trigger:'change',
                                                 required: true,
                                                 validator:(rule, value, callback)=>{
-                                                    let run; (run = legalRoutine(value,6,18,true,true,false,false)) === true ? callback() : callback(new Error(`现在密码${run}`))
+                                                    let run; (run = legalRoutine(value,6,18,true,true,false,false)) === true ? callback() : callback(new Error(`当前密码${run}`))
                                                 },
                                             },
                                         ],
                                     })(
-                                        <Input
+                                        <Input.Password
                                             size="large"
                                             type="password"
-                                            placeholder={'请输入现在的密码'}
+                                            placeholder={'请输入当前的密码'}
                                         />
                                     )}
                                 </FormItem>
                             ) : null
                         }
-                        <FormItem help={help}>
+                        <FormItem help={help} hasFeedback>
                             <Popover
                                 content={
                                     <div style={{ padding: '4px 0' }}>
@@ -171,16 +183,16 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
                                 }
                                 overlayStyle={{ width: 240 }}
                                 placement="right"
-                                visible={visible}
+                                visible={popoverVisible}
                             >
-                                {getFieldDecorator('newPass', {
+                                {getFieldDecorator('new', {
                                     rules: [
                                         {
                                             validator: this.checkPassword,
                                         },
                                     ],
                                 })(
-                                    <Input
+                                    <Input.Password
                                         size="large"
                                         type="password"
                                         placeholder={`新密码${formatMessage({ id: 'form.password.placeholder' })}`}
@@ -188,7 +200,7 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
                                 )}
                             </Popover>
                         </FormItem>
-                        <FormItem>
+                        <FormItem hasFeedback>
                             {getFieldDecorator('confirm', {
                                 rules: [
                                     {
@@ -200,7 +212,7 @@ const ModalNewPass = Form.create({ name: 'form_in_modal' })(
                                     },
                                 ],
                             })(
-                                <Input
+                                <Input.Password
                                     size="large"
                                     type="password"
                                     placeholder={'新密码确认'}

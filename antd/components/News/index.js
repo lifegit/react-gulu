@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     Modal,
     Switch,
@@ -8,17 +7,19 @@ import {
 
 const storageKey = 'newsIdA'
 
+
 /**
- * @return {{destroy: () => void; update: (newConfig: ModalFuncProps) => void}}
  * @return {null}
  */
-const News = ({id = 1, news = '', visible = false, handClose = () =>{}})=> {
+const News = (id = 1, news = '', visible = false, handClose = () =>{})=> {
   let isCheck = false;
-  const spNews = visible ? news.toString().replace(/(\r\n)|(\n)/g,'<br/>') : '';
-  if (visible && window.localStorage.getItem(storageKey) * 1 === id){
-    visible = false;
+  let lastVisible = visible;
+  if (lastVisible && window.localStorage.getItem(storageKey) * 1 === id){
+    lastVisible = false;
   }
-  if(visible){
+  const spNews = lastVisible ? news.toString().replace(/(\r\n)|(\n)/g,'<br/>') : '';
+
+  if(lastVisible){
     Modal.info({
       title: (<div><Icon type="notification" /> 公告</div>),
       maskClosable:true,
@@ -38,7 +39,6 @@ const News = ({id = 1, news = '', visible = false, handClose = () =>{}})=> {
       },
     })
   }
-  return null
 }
 
 export default News

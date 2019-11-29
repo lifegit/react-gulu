@@ -81,7 +81,7 @@ export default class SimpleTable extends PureComponent {
       }
     });
     // sorted
-    this.sorted = sorter.columnKey ? {name: sorter.columnKey, type: sorter.order.toString().split('end')[0]} : {};
+    this.sorted = sorter.order ? {name: sorter.columnKey, type: sorter.order.toString().split('end')[0]} : {};
 
     this.showData(1)
   };

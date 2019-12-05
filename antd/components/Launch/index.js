@@ -3,7 +3,7 @@ import { Icon } from 'antd';
 import Zmage from 'react-zmage';
 import {copyText} from './utils';
 
-const font = {fontSize: 15};
+const font = {fontSize: 14};
 
 export const LaunchQQ = (qq)=>{
   if (!qq) return null;
@@ -13,7 +13,7 @@ export const LaunchQQ = (qq)=>{
 
 export const LaunchUrl = (url, isCopy = true, isOpen = true)=>{
   if (!url) return null;
-  const styles = { marginRight: 5,...font }
+  const styles = { marginRight: 5,...font };
 
   return (
     <Fragment>

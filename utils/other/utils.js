@@ -124,3 +124,68 @@ export function toMoney (num = 0,n = 2, isSymbol = true) {
   const number = integer + decimal
   return isSymbol ? `¥ ${number}` : number
 }
+
+
+/**
+ * 秒转为 时分秒
+ * @param second
+ * @param opts
+ * @returns {string}
+ */
+export function secondToFix(second, opts = {}){
+  const add0 = (m)=> {
+    return m < 10 ? `0${m}`: m;
+  };
+  const { isDay = true, isHour = true, isMinute = true, isSecond = true } = opts;
+  let arr = [];
+  let text = '';
+
+  if (isDay) arr = arr.concat({tag:'天',second:86400});
+  if (isHour) arr = arr.concat({tag:'时',second:3600});
+  if (isMinute) arr = arr.concat({tag:'分',second:60});
+  if (isSecond) arr = arr.concat({tag:'秒',second:1});
+
+  arr.map(item => {
+    let i = 0;
+    while (second >= item.second){
+      second -= item.second;
+      i++;
+    }
+    if (i > 0){
+      text += `${add0(i)}${item.tag} `;
+    }
+  })
+
+  return text || '无时长';
+}
+
+/**
+ * 判断是否过期
+ * @param timeStamp
+ * @returns {{expired: boolean, soon: *}|{expired: boolean}}
+ */
+export function isExpired(timeStamp) {
+  timeStamp = Number.isFinite(timeStamp * 1 ) && timeStamp.toString().length < 13 ? timeStamp * 1000 : timeStamp;
+  const nowTimeStamp = new Date().getTime();
+
+  if (timeStamp - nowTimeStamp <= 0){
+    return {expired: true};
+  }
+
+  return {expired: false, soon: timeStamp - nowTimeStamp <= 86400 * 1000 * 3};
+}
+
+
+/**
+ * 判断是否到时
+ * @param second
+ * @returns {{expired: boolean, soon: *}|{expired: boolean}}
+ */
+export function isEnough(second) {
+  const timeStamp = Date.now() + second * 1000;
+  if (second <= 0) {
+    return {expired: true, timeStamp};
+  }
+
+  return {expired: false, timeStamp, soon: second <= 86400 * 3};
+}

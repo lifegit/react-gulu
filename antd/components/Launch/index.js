@@ -18,8 +18,16 @@ export const LaunchUrl = (url, isCopy = true, isOpen = true)=>{
   return (
     <Fragment>
       { ! isOpen ? null : <a style={styles} href={url} target='_blank'><Icon type="link" /></a> }
-      { ! isCopy ? null : <a style={styles}><Icon type="copy" onClick={()=>copyText(url)} /></a> }
+      { ! isCopy ? null : <span>{LaunchCopy(url)}</span> }
     </Fragment>
+  )
+};
+
+export const LaunchCopy = (text)=>{
+  if (!text) return null;
+
+  return (
+    <a><Icon type="copy" onClick={()=>copyText(text)} /></a>
   )
 };
 
